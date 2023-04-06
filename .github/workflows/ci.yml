@@ -15,7 +15,7 @@ on:
 jobs:
   build:
     name: Build Ubuntu 22.04
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout branch
         uses: actions/checkout@v3
@@ -37,4 +37,34 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: openfx-misc-build-ubuntu_22-release
+          path: Bundle
+  build:
+    name: Build Windows
+    runs-on: windows-2022
+    defaults:
+      run:
+        shell: msys2 {}
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - name: Setup MinGW environment
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: mingw64
+          update: true
+          install: git base-devel
+      - name: Build (release)
+        run: |
+          make -j2 CONFIG=release TESTS=1
+          mkdir -p Bundle
+          mv {CImg,Misc,Shadertoy,Test}/Win64-release/*.ofx.bundle Bundle
+      - name: Build (debug)
+        run: |
+          make -j2 CONFIG=debug
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: openfx-misc-build-windows-release
           path: Bundle
