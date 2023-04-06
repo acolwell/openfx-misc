@@ -54,7 +54,7 @@ jobs:
         with:
           msystem: mingw64
           update: true
-          install: git base-devel
+          install: git base-devel mingw-w64-x86_64-cc mingw-w64-x86_64-osmesa
       - name: Build (release)
         run: |
           make -j2 CONFIG=release TESTS=1
