@@ -1,6 +1,7 @@
 [submodule "openfx"]
 	path = openfx
-	url = https://github.com/NatronGitHub/openfx.git
+	url = https://github.com/acolwell/openfx.git
+	branch = allow_platform_define_reuse
 [submodule "SupportExt"]
 	path = SupportExt
 	url = https://github.com/NatronGitHub/openfx-supportext.git
